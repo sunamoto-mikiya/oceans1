@@ -3,6 +3,9 @@ set -e
 
 echo "Deployment started ..."
 
+# Change dir
+cd src
+
 # Enter maintenance mode or return true
 # if already is in maintenance mode
 (php artisan down) || true
