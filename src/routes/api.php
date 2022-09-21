@@ -5,6 +5,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\WantedImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 認証済みでないと許可しない
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::resource('tests', TestController::class);
+
+
+// 認証前でもOK
+Route::post("/login", [LoginController::class, "login"])->name('login');
+Route::post("/logout", [LoginController::class, "logout"]);
+Route::post("/register", [LoginController::class, "register"])->name('register');
 
 Route::post('user/{id}/wanted', [WantedImageController::class, 'create'])->name('wanted.create');
 Route::get('user/{id}/wanted', [WantedImageController::class, 'getImage'])->name('wanted.getImage');
