@@ -3,7 +3,6 @@
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Api\UserController;
-
 use App\Http\Controllers\WantedImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +29,6 @@ Route::resource('tests', TestController::class);
 Route::get('rank', [UserController::class, 'index']);
 Route::get('detail/{id}', [UserController::class, 'show']);
 
-
 // 認証前でもOK
 Route::post("/login", [LoginController::class, "login"])->name('login');
 Route::post("/logout", [LoginController::class, "logout"]);
@@ -47,3 +45,5 @@ Route::get('user/{id}/languages', [SkillController::class, 'getUserLanguages'])-
 Route::get('user/{id}/frameworks', [SkillController::class, 'getUserFrameworks'])->name('userFrameworks');
 Route::get('user/{id}/databases', [SkillController::class, 'getUserDatabases'])->name('userDatabases');
 Route::get('user/{id}/services', [SkillController::class, 'getUserServices'])->name('userServices');
+Route::get('rank', [UserController::class, 'index']);
+Route::get('detail/{id}', [UserController::class, 'show']);
