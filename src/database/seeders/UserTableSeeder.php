@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserTableSeeder extends Seeder
 {
@@ -14,11 +17,13 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = [
+        User::create([
             'name' => '田中タロウ',
             'email' => 'tanaka@example.com',
-            'birth_date' => 2000 / 05 / 05,
-            'password' => 'hoge',
-        ];
+            'birth_date' => date('Y-m-d'),
+            'password' => Hash::make('password'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }
