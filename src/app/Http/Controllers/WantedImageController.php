@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Intervention\Image\Gd\Font;
+use Illuminate\Support\Facades\Log;
+use App\Services\WantedImageService;
 
 class WantedImageController extends Controller
 {
@@ -29,6 +31,8 @@ class WantedImageController extends Controller
      */
     public function create(Request $request, int $userId): JsonResponse
     {
+        $wantedImageService = new WantedImageService();
+
         $userName = $request['user_name'];
         $affiliation = $request['affiliation'];
         $birthDate = $request['birth_date'];
@@ -45,10 +49,10 @@ class WantedImageController extends Controller
         $userImagePath = null;
         $wantedImagePath = null;
         $score = 0;
-        $score += $this->calculateSkill($languages, $userId);
-        $score += $this->calculateSkill($frameworks, $userId);
-        $score += $this->calculateSkill($databases, $userId);
-        $score += $this->calculateSkill($services, $userId);
+        $score += $wantedImageService->languageCalculate($languages, $userId);
+        $score += $wantedImageService->frameWorkCalculate($frameworks, $userId);
+        $score += $wantedImageService->databaseCalculate($databases, $userId);
+        $score += $wantedImageService->serviceCalculate($services, $userId);
 
         try {
             $image = $request->file('user_image');
@@ -60,7 +64,7 @@ class WantedImageController extends Controller
             // S3に保存
             $userImagePath = "/images/user/{$userId}.png";
             Storage::disk('s3')->put($userImagePath, $userImage->encode());
-            
+
             // ユーザーがアップロードした画像をベースの手配書に貼り付け
             $userImage->fit(525, 400, null, 'center');
             $baseWantedImage = Image::make(Storage::get('public/base-wanted.png'));
@@ -86,7 +90,7 @@ class WantedImageController extends Controller
             // 金額を手配書に張り付け
             $money = new Font();
             $money->file(storage_path('app/public/ShipporiMincho-ExtraBold.ttf'));
-            $money->text(number_format($score).' -');
+            $money->text(number_format($score) . ' -');
             $money->size(250);
             $money->valign('top');
             $money->color('#3f2a25');
@@ -122,36 +126,5 @@ class WantedImageController extends Controller
         ]);
 
         return response()->json(['message' => 'ok']);
-    }
-
-    /**
-     * 選ばれたスキルから金額の算出
-     */
-    private function calculateSkill(array $skills, int $userId): int
-    {
-        $amount = 0;
-        foreach ($skills as $skill) {
-            try {
-                $targetSkill = Skill::where('name', $skill['name'])->firstOrFail();
-            } catch (Exception $e) {
-                continue;
-            }
-
-            $userSkill = UserSkill::where('user_id', $userId)->where('skill_id', $targetSkill->id)->first();
-            if (!is_null($userSkill)) {
-                continue;
-            }
-
-            UserSkill::create([
-                'user_id' => $userId,
-                'skill_id' => $targetSkill->id,
-                'level' => $skill['level'],
-            ]);
-
-            // 10,000,000ベリー単位で決める
-            $amount += $targetSkill->weight * $skill['level'] * 10000000;
-        }
-
-        return $amount;
     }
 }
