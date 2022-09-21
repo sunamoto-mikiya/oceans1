@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Skill;
 use App\Models\UserSkill;
+use Exception;
 
 class WantedImageService
 {

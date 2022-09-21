@@ -110,7 +110,7 @@ class WantedImageController extends Controller
             $wantedImagePath = "/images/user/{$userId}_wanted_{$nowStr}.png";
             Storage::disk('s3')->put($wantedImagePath, $baseWantedImage->encode());
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            // return response()->json($e->getMessage());
         }
 
         // ユーザー情報更新
