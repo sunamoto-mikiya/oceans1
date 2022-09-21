@@ -22,7 +22,8 @@ class UserTableSeeder extends Seeder
             'birth_date' => 2000 / 05 / 05,
             'password' => 'hoge',
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
+            'score' => 1000
         ]);
     }
 }
