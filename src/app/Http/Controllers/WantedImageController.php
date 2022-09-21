@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Intervention\Image\Gd\Font;
-use Illuminate\Support\Facades\Log;
 use App\Services\WantedImageService;
 
 class WantedImageController extends Controller
