@@ -3,6 +3,7 @@
 use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('tests', TestController::class);
 
 // 認証前でもOK
-Route::post("/login", [LoginController::class, "login"]);
+Route::post("/login", [LoginController::class, "login"])->name('login');
 Route::post("/logout", [LoginController::class, "logout"]);
-Route::post("/register", [LoginController::class, "register"]);
+Route::post("/register", [LoginController::class, "register"])->name('register');
