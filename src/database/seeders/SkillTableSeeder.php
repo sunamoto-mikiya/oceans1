@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Enums\SkillType;
+use App\Models\Skill;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use App\Models\Skill;
 
 class SkillTableSeeder extends Seeder
 {
@@ -16,47 +17,85 @@ class SkillTableSeeder extends Seeder
      */
     public function run()
     {
-        Skill::create(
-            [
-                'type' => 1,
-                'name' => 'php',
-                'weight' => 3,
-                'icon_url' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-            [
-                'type' => 1,
-                'name' => 'java',
-                'weight' => 2,
-                'icon_url' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-            [
-                'type' => 1,
-                'name' => 'python',
-                'weight' => 3,
-                'icon_url' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-            [
-                'type' => 1,
-                'name' => 'swift',
-                'weight' => 2,
-                'icon_url' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
-            [
-                'type' => 2,
-                'name' => 'c',
-                'weight' => 2,
-                'icon_url' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]
-        );
+        Skill::create([
+            'type' => SkillType::SKILL_LANGUAGE,
+            'name' => 'php',
+            'weight' => 3,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_LANGUAGE,
+            'name' => 'java',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_LANGUAGE,
+            'name' => 'python',
+            'weight' => 3,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_LANGUAGE,
+            'name' => 'swift',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_FRAMEWORK,
+            'name' => 'Django',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_FRAMEWORK,
+            'name' => 'Laravel',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_DATABASE,
+            'name' => 'MySQL',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_DATABASE,
+            'name' => 'MongoDB',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_SERVICE,
+            'name' => 'AWS',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        Skill::create([
+            'type' => SkillType::SKILL_SERVICE,
+            'name' => 'Azure',
+            'weight' => 2,
+            'icon_url' => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }
