@@ -37,7 +37,7 @@ class WantedImageService
     }
     public function languageCalculate(array $skills, int $userId): int
     {
-        $magnification = 10000;
+        $magnification = 1000000;
         $amount = $this->calculateSkill($skills, $userId, $magnification);
 
         return $amount;
@@ -45,7 +45,7 @@ class WantedImageService
 
     public function frameWorkCalculate(array $skills, int $userId)
     {
-        $magnification = 15000;
+        $magnification = 1500000;
         $amount = $this->calculateSkill($skills, $userId, $magnification);
 
         return $amount;
@@ -53,7 +53,7 @@ class WantedImageService
 
     public function databaseCalculate(array $skills, int $userId)
     {
-        $magnification = 5000;
+        $magnification = 750000;
         $amount = $this->calculateSkill($skills, $userId, $magnification);
 
         return $amount;
@@ -61,7 +61,7 @@ class WantedImageService
 
     public function serviceCalculate(array $skills, int $userId)
     {
-        $magnification = 5000;
+        $magnification = 750000;
         $amount = $this->calculateSkill($skills, $userId, $magnification);
 
         return $amount;
