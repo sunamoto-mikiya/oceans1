@@ -23,7 +23,8 @@ class UserTableSeeder extends Seeder
             'birth_date' => date('Y-m-d'),
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
+            'score' => 1000
         ]);
     }
 }
