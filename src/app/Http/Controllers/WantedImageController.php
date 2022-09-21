@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserSkill;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -53,6 +54,8 @@ class WantedImageController extends Controller
         $score += $wantedImageService->databaseCalculate($databases, $userId);
         $score += $wantedImageService->serviceCalculate($services, $userId);
 
+        $nowStr = Carbon::now()->format('Y-m-d_H-i-s');
+
         try {
             $image = $request->file('user_image');
             if (is_null($image) || is_null($userName)) {
@@ -61,7 +64,7 @@ class WantedImageController extends Controller
             $userImage = Image::make($image);
 
             // S3に保存
-            $userImagePath = "/images/user/{$userId}.png";
+            $userImagePath = "/images/user/{$userId}_{$nowStr}.png";
             Storage::disk('s3')->put($userImagePath, $userImage->encode());
 
             // ユーザーがアップロードした画像をベースの手配書に貼り付け
@@ -104,14 +107,14 @@ class WantedImageController extends Controller
 
             // S3に保存
             $baseWantedImage->save(storage_path('app/public/sample.png'));
-            $wantedImagePath = "/images/user/{$userId}_wanted.png";
+            $wantedImagePath = "/images/user/{$userId}_wanted_{$nowStr}.png";
             Storage::disk('s3')->put($wantedImagePath, $baseWantedImage->encode());
         } catch (Exception $e) {
-            // return response()->json($e->getMessage());
+            return response()->json($e->getMessage());
         }
 
         // ユーザー情報更新
-        $user = User::find($userId);
+        $user = User::findOrFail($userId);
         $reagion = config('filesystems.disks.s3.region');
         $bucket = config('filesystems.disks.s3.bucket');
         $user->update([
