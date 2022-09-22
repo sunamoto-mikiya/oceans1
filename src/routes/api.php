@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\WantedImageController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\WantedImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('tests', TestController::class);
 
+Route::get('rank', [UserController::class, 'index']);
+Route::get('detail/{id}', [UserController::class, 'show']);
 
 // 認証前でもOK
 Route::post("/login", [LoginController::class, "login"])->name('login');
