@@ -24,7 +24,7 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->get();
 
         if (count($user) === 0) {
-            return response()->json(404);
+            return response()->json(['message' => 'ログインに失敗しました'], 404);
         }
 
         // 一致
@@ -34,7 +34,7 @@ class LoginController extends Controller
 
             // 不一致    
         } else {
-            return response()->json(404);
+            return response()->json(['message' => 'ログインに失敗しました'], 404);
         }
     }
 }
