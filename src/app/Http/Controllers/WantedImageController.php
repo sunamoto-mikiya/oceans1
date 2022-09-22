@@ -64,7 +64,11 @@ class WantedImageController extends Controller
                 throw new Exception();
             }
             Log::warning('2');
-            $userImage = Image::make($image);
+            try {
+                $userImage = Image::make($image);
+            } catch (Exception $e) {
+                Log::wawrning($e);
+            }
             Log::warning('3');
 
 
