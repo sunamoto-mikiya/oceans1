@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Intervention\Image\Gd\Font;
@@ -58,19 +59,26 @@ class WantedImageController extends Controller
 
         try {
             $image = $request->file('user_image');
+            Log::warning('1');
             if (is_null($image) || is_null($userName)) {
                 throw new Exception();
             }
+            Log::warning('2');
             $userImage = Image::make($image);
+            Log::warning('3');
+
 
             // S3に保存
             $userImagePath = "/images/user/{$userId}_{$nowStr}.png";
             Storage::disk('s3')->put($userImagePath, $userImage->encode());
 
+            Log::warning('4');
+            
             // ユーザーがアップロードした画像をベースの手配書に貼り付け
             $userImage->fit(525, 400, null, 'center');
             $baseWantedImage = Image::make(Storage::get('public/base-wanted.png'));
             $baseWantedImage->insert($userImage, 'top-left', 60, 210);
+            Log::warning('5');
 
 
             // 名前を手配書に張り付け
@@ -86,6 +94,7 @@ class WantedImageController extends Controller
             $name->applyToImage($nameZone);
             $nameZoneWidth = $nameSize['width'] > 500 ? 500 : $nameSize['width'];
             $nameZone->resize($nameZoneWidth, 100);
+            Log::warning('6');
 
             $baseWantedImage->insert($nameZone, 'top', 0, 690);
 
@@ -102,6 +111,7 @@ class WantedImageController extends Controller
             $money->applyToImage($moneyZone);
             $moneyZoneWidth = $moneySize['width'] > 450 ? 450 : $moneySize['width'];
             $moneyZone->resize($moneyZoneWidth, 30);
+            Log::warning('7');
 
             $baseWantedImage->insert($moneyZone, 'top-left', 115, 820);
 
@@ -109,8 +119,10 @@ class WantedImageController extends Controller
             $baseWantedImage->save(storage_path('app/public/sample.png'));
             $wantedImagePath = "/images/user/{$userId}_wanted_{$nowStr}.png";
             Storage::disk('s3')->put($wantedImagePath, $baseWantedImage->encode());
+            Log::warning('8');
         } catch (Exception $e) {
             // return response()->json($e->getMessage());
+            Log::warning('exception');
         }
 
         // ユーザー情報更新
